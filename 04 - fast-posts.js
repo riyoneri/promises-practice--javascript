@@ -1,29 +1,12 @@
 function getFastPosts() {
-  const firstNews = new Promise((resolve, reject) => {
-    fetch("https://dummyjson.com/posts")
-      .then((res) => res.json())
-      .then((data) => resolve(data))
-      .catch((err) => resolve([]));
-  });
+  const firstNews = fetch("https://dummyjson.com/posts");
+  const secondNews = fetch("https://this-may-not-exist.com/posts");
+  const thirdNews = fetch("https://jsonplaceholder.typicode.com/posts");
 
-  const secondNews = new Promise((resolve, reject) => {
-    fetch("https://this-may-not-exist.com/posts")
-      .then((res) => res.json())
-      .then((data) => resolve(data))
-      .catch((err) => resolve([]));
-  });
-  const thirdNews = new Promise((resolve, reject) => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => res.json())
-      .then((data) => resolve(data))
-      .catch((err) => resolve([]));
-  });
-
-  return Promise.race([firstNews, secondNews, thirdNews]);
+  return Promise.any([firstNews, secondNews, thirdNews]);
 }
 
 getFastPosts()
-  .then((posts) => {
-    console.log(posts);
-  })
+  .then((posts) => posts.json())
+  .then((data) => console.log(data))
   .catch((err) => console.log(err));
