@@ -1,24 +1,24 @@
- function cb(error, data) {
-   if (error) {
-     return console.log("Error: " + error);
-   }
-   console.log(data);
- };
+function cb(error, data) {
+  if (error) {
+    return console.log("Error: " + error);
+  }
+  console.log(data);
+}
 
 function fetchProduct(productId, cb) {
   if (productId !== 1) {
     cb(new Error("Product not valid", ""));
   } else {
-    cb(undefined, "This is my data")
+    cb(undefined, "This is my data");
   }
 }
 
 function promisify(fn) {
-    async function myFunc(prodId) {
-        fn(prodId, cb)
-    }
+  async function myFunc(prodId) {
+    fn(prodId, cb);
+  }
 
-    return myFunc
+  return myFunc;
 }
 
 const fetchProductAsPromise = promisify(fetchProduct);
